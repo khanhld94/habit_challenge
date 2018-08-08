@@ -1,10 +1,144 @@
-<html>
-  <head>
-    <%= stylesheet_link_tag 'custom/custom' %>
-  </head>
-  <body>
-    <div class="container" id="mContainer">
-        <h1>Hello</h1>
+<head>
+  <%= stylesheet_link_tag 'custom/custom' %>
+</head>
+<body>
+<div id="mContainer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <div class="box box-shadow">
+    <div class="profile">
+      <div class="user">
+        <div class="media">
+          <div class="media-left">
+            <img src="https://www.geek.com/wp-content/uploads/2017/07/saitama-625x352.png" class="media-object face" style="width: 82px">
+            <span class="idle"></span>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">Khanh</h4>
+            <p>LDK</p>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <!--<span class="toggler active" data-toggle="grid"><span class="entypo-layout"></span></span>-->
+        <span class="toggler" data-toggle="list"><span class="entypo-list"></span></span>
+        <ul class="surveys list">
+          <li class="survey-item">
+                     <span class="survey-country list-only">
+                     UK
+                     </span>
+            <span class="survey-name">
+                     UK Beer May 2014
+                     </span>
+            <span class="survey-country grid-only">
+                     UK
+                     </span>
+            <div class="pull-right">
+                        <span class="survey-progress">
+                        <span class="survey-progress-bg">
+                        <span class="survey-progress-fg" style="width: 88%;"></span>
+                        </span>
+                        <span class="survey-progress-labels">
+                        <span class="survey-progress-label">
+                        88%
+                        </span>
+                        <span class="survey-completes">
+                        490 / 500
+                        </span>
+                        </span>
+                        </span>
+              <span class="survey-end-date ended">
+                        2014 - May 10
+                        </span>
+              <span class="survey-stage">
+                        <span class="stage draft">Draft</span>
+                        <span class="stage awarded">Awarded</span>
+                        <span class="stage live">Live</span>
+                        <span class="stage ended active">Ended</span>
+                        </span>
+            </div>
+          </li>
+          <li class="survey-item">
+                     <span class="survey-country list-only">
+                     UK
+                     </span>
+            <span class="survey-name">
+                     UK Beer May 2014
+                     </span>
+            <span class="survey-country grid-only">
+                     UK
+                     </span>
+            <div class="pull-right">
+                        <span class="survey-progress">
+                        <span class="survey-progress-bg">
+                        <span class="survey-progress-fg" style="width: 88%;"></span>
+                        </span>
+                        <span class="survey-progress-labels">
+                        <span class="survey-progress-label">
+                        88%
+                        </span>
+                        <span class="survey-completes">
+                        490 / 500
+                        </span>
+                        </span>
+                        </span>
+              <span class="survey-end-date ended">
+                        2014 - May 10
+                        </span>
+              <span class="survey-stage">
+                        <span class="stage draft">Draft</span>
+                        <span class="stage awarded">Awarded</span>
+                        <span class="stage live">Live</span>
+                        <span class="stage ended active">Ended</span>
+                        </span>
+            </div>
+          </li>
+          <li class="survey-item">
+                     <span class="survey-country list-only">
+                     UK
+                     </span>
+            <span class="survey-name">
+                     UK Beer May 2014
+                     </span>
+            <span class="survey-country grid-only">
+                     UK
+                     </span>
+            <div class="pull-right">
+                        <span class="survey-progress">
+                        <span class="survey-progress-bg">
+                        <span class="survey-progress-fg" style="width: 88%;"></span>
+                        </span>
+                        <span class="survey-progress-labels">
+                        <span class="survey-progress-label">
+                        88%
+                        </span>
+                        <span class="survey-completes">
+                        490 / 500
+                        </span>
+                        </span>
+                        </span>
+              <span class="survey-end-date ended">
+                        2014 - May 10
+                        </span>
+              <span class="survey-stage">
+                        <span class="stage draft">Draft</span>
+                        <span class="stage awarded">Awarded</span>
+                        <span class="stage live">Live</span>
+                        <span class="stage ended active">Ended</span>
+                        </span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-  </body>
-</html>
+    <div class="menu-box">
+      <div class="icon-bar">
+        <a href="#"><i class="fa fa-home" aria-hidden="true"></i></a>
+        <a href="#"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+        <a class="active" href="#"><i class="fa fa-users" aria-hidden="true"></i></a>
+        <a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
+        <%= link_to '<i class="fa fa-sign-out" aria-hidden="true"></i>'.html_safe, destroy_user_session_path, method: "delete" %>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
