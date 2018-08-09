@@ -36,8 +36,6 @@ gem 'webpacker'
 gem 'react-rails'
 gem 'devise'
 gem 'bootstrap'
-gem 'therubyracer', git: 'https://github.com/cowboyd/therubyracer.git'
-
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-particles.js'
