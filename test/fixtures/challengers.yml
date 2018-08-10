@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  length: 1
+  start_at: 2018-08-09 19:00:11
+  status: 1
+  longest: 1
+  user_id: 1
+
+two:
+  name: MyString
+  length: 1
+  start_at: 2018-08-09 19:00:11
+  status: 1
+  longest: 1
+  user_id: 1
