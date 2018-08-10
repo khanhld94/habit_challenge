@@ -4,6 +4,6 @@
 <body>
 <div id="mContainer">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <%= react_component('main', {logoutUrl: destroy_user_session_path }) %>
+  <%= react_component('main', {user_email: current_user.email}) %>
 </div>
 </body>
