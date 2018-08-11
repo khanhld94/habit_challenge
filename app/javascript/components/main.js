@@ -147,10 +147,31 @@ class Index extends React.Component{
 }
 
 class Profile extends React.Component{
+    submit(){
+        fetch("/challenger", {method: "post",
+        body: {
+
+        }})
+    }
     render(){
         return(
             <div>
-                <p>Hello This is my profile</p>
+                <form name="createForm">
+                    <div className="form-group">
+                        <label>Challenger Name</label>
+                        <input type="text" placeholder="Enter Name" name="name"/>
+                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div className="form-group">
+                        <label>Challenger Length </label>
+                        <input className="form-control" name="length" placeholder="length"/>
+                    </div>
+                    <div className="form-group">
+                        <label>Challenger Length </label>
+                        <input className="form-control" name="length" placeholder="length"/>
+                    </div>
+                    <button className="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
+                </form>
             </div>
         )
     }
