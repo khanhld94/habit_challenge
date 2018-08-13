@@ -53,7 +53,7 @@ class Main extends React.Component {
                             </div>
                         </div>
                         <Route exact path="/" component={Index}/>
-                        <Route path="/profile" component={Profile} user_id={this.props.user_id}/>
+                        <Route path="/profile" render={() => ( <Profile user_id={this.props.user_id} /> )} />
                         <Route path="/explore" component={Explore}/>
                     </div>
                     <div className="menu-box">
@@ -97,17 +97,15 @@ class Index extends React.Component {
     }
 
     componentDidMount() {
-        fetch("/challenger", {
-            method: "GET", headers: {
+        axios.get("/challenger", {
+            headers: {
                 "Accept": "application/json",
                 'Content-Type': 'application/json'
             }
-        }).then(response => {
-            return response.json();
         })
-            .then(data => {
-                this.setState({challengers: data});
-            })
+        .then(res => {
+            this.setState({challengers: res.data});
+        })
     }
 
     render() {
@@ -177,13 +175,26 @@ class Profile extends React.Component {
 
     }
 
+    addNewItem(item){
+        this.props.addNewItem(item);
+    }
+
     submit() {
         let name = this.refs.name.value;
         let length = this.refs.length.value;
-        console.log(name)
-        console.log(length)
+        let time = new Date();
+        let start_at = time.getFullYear() + "-" + (time.getMonth()+ 1) + "-" + time.getDate() + " "
+                         + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()
+        console.log(start_at)
         let user_id = this.props.user_id;
-        console.log(user_id);
+        let challenger = {
+            name: name,
+            length: length,
+            user_id: user_id,
+            start_at: start_at,
+            status: 0,
+            longest: 0
+        }
         if (name === "") {
             alert("Please fill name field");
         }
@@ -196,14 +207,7 @@ class Profile extends React.Component {
                     'Content-Type': 'application/json',
                     'X-CSRF-Token': this.getCSRFToken()
                 },
-                challenger: {
-                    name: name,
-                    length: length,
-                    user_id: 1,
-                    start_at: Date.now(),
-                    status: 0,
-                    longest: 0
-                }
+                challenger: challenger
             })
             .then(function (response) {
                 console.log(response);
@@ -211,26 +215,12 @@ class Profile extends React.Component {
             .catch(function (error) {
                 console.log(error);
             });
-            // fetch("/challenger", {method: "post",
-            //     headers: {
-            //         "Accept": "application/json",
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: {
-            //         "name": name,
-            //         "length": length,
-            //         "user_id": 1,
-            //         "start_at": Date.now(),
-            //         "status": 0,
-            //         "longest": 0
-            //     }}).then((res) => console.log(res))
         }
 
     }
-
     render() {
         return (
-            <div>
+            <div className="container">
                 <form name="createForm">
                     <div className="form-group">
                         <label>Challenger Name</label>
