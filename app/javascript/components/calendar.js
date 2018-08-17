@@ -104,7 +104,7 @@ class Calendar extends React.Component {
                             className={`col cell ${
                                 !dateFns.isSameMonth(day, monthStart)
                                     ? "disabled"
-                                    : ""
+                                    : dateFns.isSameDay(day, selectedDate) ? "done" : ""
                                 }`}
                             key={day}
                             onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
