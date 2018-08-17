@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180809100011) do
+ActiveRecord::Schema.define(version: 20180813071804) do
+
+  create_table "challenger_days", force: :cascade do |t|
+    t.string "day"
+    t.integer "status"
+    t.text "content"
+    t.integer "challenger_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "challengers", force: :cascade do |t|
     t.string "name"

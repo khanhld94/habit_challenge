@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 import axios from "axios"
-
+import Calendar from "../components/calendar"
 
 class Main extends React.Component {
 
@@ -53,8 +53,9 @@ class Main extends React.Component {
                             </div>
                         </div>
                         <Route exact path="/" component={Index}/>
-                        <Route path="/profile" render={() => ( <Profile user_id={this.props.user_id} /> )} />
+                        <Route path="/profile" render={() => (<Profile user_id={this.props.user_id}/>)}/>
                         <Route path="/explore" component={Explore}/>
+                        <Route path="/detail/:id" component={Detail}/>
                     </div>
                     <div className="menu-box">
                         <div className="icon-bar">
@@ -96,16 +97,16 @@ class Index extends React.Component {
 
     }
 
-    componentDidMount() {
+    componentWillMount() {
         axios.get("/challenger", {
             headers: {
                 "Accept": "application/json",
                 'Content-Type': 'application/json'
             }
         })
-        .then(res => {
-            this.setState({challengers: res.data});
-        })
+            .then(res => {
+                this.setState({challengers: res.data});
+            })
     }
 
     render() {
@@ -116,7 +117,7 @@ class Index extends React.Component {
                        <i className="fa fa-tasks"/>
                      </span>
                     <span className="survey-name">
-                        {item.name}
+                        <Link to={"/detail/" + item.id}>{item.name}</Link>
                      </span>
                     <span className="survey-country grid-only">
                      UK
@@ -175,7 +176,7 @@ class Profile extends React.Component {
 
     }
 
-    addNewItem(item){
+    addNewItem(item) {
         this.props.addNewItem(item);
     }
 
@@ -183,9 +184,8 @@ class Profile extends React.Component {
         let name = this.refs.name.value;
         let length = this.refs.length.value;
         let time = new Date();
-        let start_at = time.getFullYear() + "-" + (time.getMonth()+ 1) + "-" + time.getDate() + " "
-                         + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()
-        console.log(start_at)
+        let start_at = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate() + " "
+            + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()
         let user_id = this.props.user_id;
         let challenger = {
             name: name,
@@ -209,15 +209,16 @@ class Profile extends React.Component {
                 },
                 challenger: challenger
             })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
 
     }
+
     render() {
         return (
             <div className="container">
@@ -242,6 +243,36 @@ class Explore extends React.Component {
         return (
             <div>
                 <p>This is explore tab</p>
+            </div>
+        )
+    }
+}
+
+class Detail extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            challenger: {},
+            challengerDay: []
+        }
+    }
+
+    componentWillMount() {
+        axios.get("/challenger/" + this.props.match.params.id)
+            .then((res) => {
+                console.log(res)
+                this.setState({
+                    challenger: res.data.challenger,
+                    challengerDay: res.data.challenger_day
+                })
+            })
+            .catch((err) => console.log(err))
+    }
+
+    render() {
+        return (
+            <div className="container" style={{padding: 10 + "px"}}>
+                <Calendar challengerDay={this.state.challengerDay}/>
             </div>
         )
     }
