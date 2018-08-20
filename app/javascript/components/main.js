@@ -257,7 +257,7 @@ class Detail extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         axios.get("/challenger/" + this.props.match.params.id)
             .then((res) => {
                 console.log(res)
@@ -270,9 +270,10 @@ class Detail extends React.Component {
     }
 
     render() {
+        console.log(this.state.challengerDay)
         return (
             <div className="container" style={{padding: 10 + "px"}}>
-                <Calendar challengerDay={this.state.challengerDay}/>
+                <Calendar challengerDay={this.state.challengerDay} start_at ={this.state.challenger.start_at}/>
             </div>
         )
     }
