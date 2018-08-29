@@ -1,6 +1,8 @@
 import React from "react";
 import dateFns from "date-fns"
-import PopoverItem from "../components/PopoverItem"
+import PopoverFailItem from "../components/PopoverFailItem"
+import PopoverSuccessItem from "../components/PopoverSuccessItem"
+import PopoverPendingItem from "../components/PopoverPendingItem"
 
 
 class Calendar extends React.Component {
@@ -90,6 +92,7 @@ class Calendar extends React.Component {
         })
         return rs
     }
+
     renderDetail(){
         return(
             <div>
@@ -105,10 +108,17 @@ class Calendar extends React.Component {
         )
     }
     checkBetween(dayStart, day){
+        if(dayStart != undefined){
+            dayStart = dayStart.substring(0,10) + " 00:00:00"
+        }
         let dayEnd = new Date()
         let pDayStart = new Date(dayStart)
         let pDay = new Date(day)
-        return pDay.valueOf() < dayEnd.valueOf() && pDay.valueOf() > pDayStart.valueOf()
+        console.log(pDayStart)
+        console.log(pDay)
+        console.log(pDayStart.valueOf())
+        console.log(pDay.valueOf())
+        return pDay.valueOf() <= dayEnd.valueOf() && pDay.valueOf() >= pDayStart.valueOf()
     }
     renderCells() {
         let { currentMonth, selectedDate } = this.state;
@@ -131,44 +141,31 @@ class Calendar extends React.Component {
                 let cloneDay = day;
                 let checkHabitDay = this.filterDay(challengerDay, day)
                 if(this.checkBetween(this.props.start_at, day)){
-                    if(checkHabitDay.length > 0){
-                        days.push(
-                            <div
-                                className={`col cell ${
-                                    !dateFns.isSameMonth(day, monthStart)
-                                        ? "disabled"
-                                        : dateFns.isSameDay(day, selectedDate) ? "checked" : ""
-                                    }`}
-                                key={day}
-                                onClick={() => this.toggle(checkHabitDay[0].id)}
-                            >
-                                <span className="number">{formattedDate}</span>
-                                <span className={`${checkHabitDay[0].content.length > 0 ? "finished" : "fail"}`}><i className={`fa ${
-                                    checkHabitDay[0].content.length > 0 ?
-                                        "fa-check-circle-o"
-                                        : "fa-ban"
-                                    }`}/></span>
-                                <span className="bg">{formattedDate}</span>
-                            </div>
-                        );
+                    if(dateFns.isSameDay(day, selectedDate)){
+                        if(checkHabitDay.length > 0){
+                            days.push(
+                                <PopoverSuccessItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}/>
+                            )
+                        }
+                        else {
+                            days.push(
+                                <PopoverPendingItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}/>
+                            )
+                        }
                     }
                     else {
-                        days.push(
-                            <div
-                                className={`col cell ${
-                                    !dateFns.isSameMonth(day, monthStart)
-                                        ? "disabled"
-                                        : dateFns.isSameDay(day, selectedDate) ? "checked" : ""
-                                    }`}
-                                key={day}
-                                onClick={() => this.toggle(checkHabitDay[0].id)}
-                            >
-                                <span className="number">{formattedDate}</span>
-                                <span className="fail"><i className="fa fa-ban"/></span>
-                                <span className="bg">{formattedDate}</span>
-                            </div>
-                        )
+                        if(checkHabitDay.length > 0){
+                            days.push(
+                                <PopoverSuccessItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}/>
+                            )
+                        }
+                        else {
+                            days.push(
+                                <PopoverFailItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}/>
+                            )
+                        }
                     }
+
                 }
                 else {
                     days.push(
