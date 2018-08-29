@@ -114,10 +114,6 @@ class Calendar extends React.Component {
         let dayEnd = new Date()
         let pDayStart = new Date(dayStart)
         let pDay = new Date(day)
-        console.log(pDayStart)
-        console.log(pDay)
-        console.log(pDayStart.valueOf())
-        console.log(pDay.valueOf())
         return pDay.valueOf() <= dayEnd.valueOf() && pDay.valueOf() >= pDayStart.valueOf()
     }
     renderCells() {
