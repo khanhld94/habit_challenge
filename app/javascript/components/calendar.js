@@ -136,16 +136,18 @@ class Calendar extends React.Component {
                 formattedDate = dateFns.format(day, dateFormat);
                 let cloneDay = day;
                 let checkHabitDay = this.filterDay(challengerDay, day)
-                if(this.checkBetween(this.props.start_at, day)){
+                if(this.checkBetween(this.props.challenger.start_at, day)){
                     if(dateFns.isSameDay(day, selectedDate)){
                         if(checkHabitDay.length > 0){
                             days.push(
-                                <PopoverSuccessItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}/>
+                                <PopoverSuccessItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
+                                content={this.props.challenger.content}/>
                             )
                         }
                         else {
                             days.push(
-                                <PopoverPendingItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}/>
+                                <PopoverPendingItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
+                                challenger_id={this.props.challenger.id}/>
                             )
                         }
                     }
@@ -210,24 +212,13 @@ class Calendar extends React.Component {
     }
 
     render() {
-        if(this.state.renderStatus == 1)
-        {
-            return (
-                <div className="calendar">
-                    {this.renderCalendarHeader()}
-                    {this.renderDay()}
-                    {this.renderCells()}
-                </div>
-            )
-        }
-        else {
-            return(
-                <div className="calendar">
-                    {this.renderEventHeader()}
-                    {this.renderDetail()}
-                </div>
-            )
-        }
+        return (
+            <div className="calendar">
+                {this.renderCalendarHeader()}
+                {this.renderDay()}
+                {this.renderCells()}
+            </div>
+        )
     }
 }
 

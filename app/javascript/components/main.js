@@ -272,7 +272,7 @@ class Detail extends React.Component {
     render() {
         return (
             <div className="container" style={{padding: 10 + "px"}}>
-                <Calendar challengerDay={this.state.challengerDay} start_at ={this.state.challenger.start_at}/>
+                <Calendar challengerDay={this.state.challengerDay} challenger ={this.state.challenger} />
             </div>
         )
     }
