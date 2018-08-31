@@ -33,8 +33,10 @@ class PopoverSuccessItem extends React.Component {
                 <span className="finished"><i className="fa fa-check-circle-o"/></span>
                 <span className="bg">{this.props.formattedDate}</span>
                 <Popover placement="auto" isOpen={this.state.popoverOpen} target={'Popover-' + this.props.id} toggle={this.toggle}>
-                    <PopoverHeader>Content</PopoverHeader>
+                    <PopoverHeader>{this.props.day.toISOString().substr(0,10)}</PopoverHeader>
                     <PopoverBody>
+                        <p style={{textAlign: "center"}}>Content</p>
+                        <hr/>
                         <p>{this.props.content}</p>
                         <hr/>
                         <img src="../images/1QS7o8C.jpg"/>

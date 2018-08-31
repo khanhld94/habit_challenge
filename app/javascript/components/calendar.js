@@ -141,7 +141,7 @@ class Calendar extends React.Component {
                         if(checkHabitDay.length > 0){
                             days.push(
                                 <PopoverSuccessItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
-                                content={this.props.challenger.content}/>
+                                content={checkHabitDay[0].content}/>
                             )
                         }
                         else {
@@ -154,7 +154,8 @@ class Calendar extends React.Component {
                     else {
                         if(checkHabitDay.length > 0){
                             days.push(
-                                <PopoverSuccessItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}/>
+                                <PopoverSuccessItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
+                                                    content={checkHabitDay[0].content}/>
                             )
                         }
                         else {

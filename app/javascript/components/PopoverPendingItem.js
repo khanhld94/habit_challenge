@@ -61,7 +61,7 @@ class PopoverPendingItem extends React.Component {
                 <span className="pending"><i className="fa fa-exclamation-triangle"/></span>
                 <span className="bg">{this.props.formattedDate}</span>
                 <Popover placement="auto" isOpen={this.state.popoverOpen} target={'Popover-' + this.props.id} toggle={this.toggle} style={{textAlign: "center"}}>
-                    <PopoverHeader>Content</PopoverHeader>
+                    <PopoverHeader>{this.props.day.toISOString().substr(0,10)}</PopoverHeader>
                     <PopoverBody>
                         <div>
                             <div className="form-group">

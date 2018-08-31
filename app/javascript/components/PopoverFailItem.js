@@ -32,7 +32,7 @@ class PopoverFailItem extends React.Component {
                 <span className="fail"><i className="fa fa-ban"/></span>
                 <span className="bg">{this.props.formattedDate}</span>
                 <Popover placement="auto" isOpen={this.state.popoverOpen} target={'Popover-' + this.props.id} toggle={this.toggle}>
-                    <PopoverHeader>Content</PopoverHeader>
+                    <PopoverHeader>{this.props.day.toISOString().substr(0,10)}</PopoverHeader>
                     <PopoverBody>
                         <p>Failed!</p>
                         <img src="../images/un2I60i.jpg"/>
