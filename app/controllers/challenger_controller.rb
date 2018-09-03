@@ -3,8 +3,12 @@ class ChallengerController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
 
   def index
-    @challengers = current_user.challengers.includes(:challenger_days)
-    render json: @challengers
+    @challengers = current_user.challengers
+    arr = Array.new
+    @challengers.each do |c|
+      arr.push("challenger": c, "challengerDay": c.challenger_days)
+    end
+    render json: arr
   end
 
   def create

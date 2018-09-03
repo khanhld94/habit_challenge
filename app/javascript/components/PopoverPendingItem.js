@@ -8,6 +8,7 @@ class PopoverPendingItem extends React.Component {
 
         this.toggle = this.toggle.bind(this);
         this.submit = this.submit.bind(this);
+        this.getChallengerDayData = this.getChallengerDayData.bind(this)
         this.state = {
             popoverOpen: false
         };
@@ -17,6 +18,10 @@ class PopoverPendingItem extends React.Component {
         this.setState({
             popoverOpen: !this.state.popoverOpen
         });
+    }
+
+    getChallengerDayData(id){
+        this.props.getChallengerDayData(id)
     }
 
     submit(){
@@ -38,11 +43,13 @@ class PopoverPendingItem extends React.Component {
                 self.setState({
                     popoverOpen: false
                 })
+
                 console.log(response);
             })
             .catch(function (error) {
                 console.log(error);
             });
+            this.getChallengerDayData(this.props.challenger_id)
         }
 
     }

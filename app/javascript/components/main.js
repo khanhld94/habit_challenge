@@ -53,15 +53,15 @@ class Main extends React.Component {
                             </div>
                         </div>
                         <Route exact path="/" component={Index}/>
-                        <Route path="/profile" render={() => (<Profile user_id={this.props.user_id}/>)}/>
+                        <Route path="/new" render={() => (<Profile user_id={this.props.user_id}/>)}/>
                         <Route path="/explore" component={Explore}/>
                         <Route path="/detail/:id" component={Detail}/>
                     </div>
                     <div className="menu-box">
                         <div className="icon-bar">
                             <NavLink to="/"><i className="fa fa-home" aria-hidden="true"/></NavLink>
+                            <NavLink to="/new"><i className="fa fa-plus-square-o" aria-hidden="true"/></NavLink>
                             <NavLink to="/explore"><i className="fa fa-paper-plane" aria-hidden="true"/></NavLink>
-                            <NavLink to="/profile"><i className="fa fa-users" aria-hidden="true"/></NavLink>
                             <NavLink to="" onClick={this.logOut.bind(this)}><i className="fa fa-sign-out"
                                                                                aria-hidden="true"/></NavLink>
                         </div>
@@ -105,12 +105,15 @@ class Index extends React.Component {
             }
         })
             .then(res => {
+                console.log(res)
                 this.setState({challengers: res.data});
             })
     }
 
     render() {
         let challenger_list = this.state.challengers.map((item) => {
+            let successDays = item.challengerDay.length
+            item = item.challenger
             return (
                 <li className="survey-item" key={item.id}>
                      <span className="survey-country list-only">
@@ -126,14 +129,14 @@ class Index extends React.Component {
                         <span className="survey-progress">
                         <span className="survey-progress-bg">
                         <span className="survey-progress-fg"
-                              style={{width: Math.round(item.longest * 100 / item.length) + '%'}}/>
+                              style={{width: Math.round(successDays * 100 / item.length) + '%'}}/>
                         </span>
                         <span className="survey-progress-labels">
                         <span className="survey-progress-label">
-                            {Math.round(item.longest * 100 / item.length)}%
+                            {Math.round(successDays * 100 / item.length)}%
                         </span>
                         <span className="survey-completes">
-                            {item.longest} / {item.length}
+                            {successDays} / {item.length}
                         </span>
                         </span>
                         </span>
@@ -221,18 +224,27 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                <form name="createForm">
-                    <div className="form-group">
-                        <label>Challenger Name</label>
-                        <input type="text" placeholder="Enter Name" name="name" className="form-control" ref="name"/>
-                    </div>
-                    <div className="form-group">
-                        <label>Challenger Length </label>
-                        <input className="form-control" name="length" placeholder="length" ref="length"/>
-                    </div>
-                    <a className="btn btn-primary" onClick={this.submit.bind(this)}>Submit</a>
-                </form>
+            <div id="create_form">
+                <h4 className="create-form-label">Create new challenger</h4>
+                <div className="inline-picture">
+                    <img className="gif-img" src="../images/batman.gif"/>
+                </div>
+                <div className="inline-form">
+                    <form name="createForm">
+                        <div className="form-group">
+                            <label>Name: </label>
+                            <input type="text" placeholder="Enter Name" name="name" className="form-control" ref="name"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Length: </label>
+                            <input className="form-control" name="length" placeholder="Enter length (days) of challenger" ref="length"/>
+                        </div>
+                        <a className="btn btn-primary" onClick={this.submit.bind(this)}>Submit</a>
+                    </form>
+                </div>
+                <div className="inline-picture">
+                    <img className="gif-img" src="../images/brother.gif"/>
+                </div>
             </div>
         )
     }
@@ -241,8 +253,52 @@ class Profile extends React.Component {
 class Explore extends React.Component {
     render() {
         return (
-            <div>
-                <p>This is explore tab</p>
+            <div className="container">
+                <h4 className="explore-title">Let's try</h4>
+                <div className="container card-list">
+                    <div className="card blue">
+                        <div className="title">Do exercise</div><span className="glyphicon glyphicon-upload"></span>
+                        <div className="value">100 days</div>
+                        <div className="stat"><b>90</b>% pass</div>
+                    </div>
+                    <div className="card green">
+                        <div className="title">Readbook</div><span className="glyphicon glyphicon-upload"></span>
+                        <div className="value">52 weeks</div>
+                        <div className="stat"><b>6</b>% pass</div>
+                    </div>
+                    <div className="card orange">
+                        <div className="title">Learn Japanese</div><span className="glyphicon glyphicon-download"></span>
+                        <div className="value">365 days</div>
+                        <div className="stat"><b>13</b>% pass</div>
+                    </div>
+                    <div className="card red">
+                        <div className="title">No Fap</div><span className="glyphicon glyphicon-download"></span>
+                        <div className="value">90 days</div>
+                        <div className="stat"><b>0</b>% pass</div>
+                    </div>
+                </div>
+                <div className="container card-list">
+                    <div className="card blue">
+                        <div className="title">Do exercise</div><span className="glyphicon glyphicon-upload"></span>
+                        <div className="value">100 days</div>
+                        <div className="stat"><b>90</b>% pass</div>
+                    </div>
+                    <div className="card green">
+                        <div className="title">Readbook</div><span className="glyphicon glyphicon-upload"></span>
+                        <div className="value">52 weeks</div>
+                        <div className="stat"><b>6</b>% pass</div>
+                    </div>
+                    <div className="card orange">
+                        <div className="title">Learn Japanese</div><span className="glyphicon glyphicon-download"></span>
+                        <div className="value">365 days</div>
+                        <div className="stat"><b>13</b>% pass</div>
+                    </div>
+                    <div className="card red">
+                        <div className="title">No Fap</div><span className="glyphicon glyphicon-download"></span>
+                        <div className="value">90 days</div>
+                        <div className="stat"><b>0</b>% pass</div>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -255,10 +311,15 @@ class Detail extends React.Component {
             challenger: {},
             challengerDay: []
         }
+        this.getChallengerDayData = this.getChallengerDayData.bind(this)
     }
 
     componentDidMount() {
-        axios.get("/challenger/" + this.props.match.params.id)
+        this.getChallengerDayData(this.props.match.params.id)
+    }
+
+    getChallengerDayData(cId){
+        axios.get("/challenger/" + cId)
             .then((res) => {
                 console.log(res)
                 this.setState({
@@ -272,7 +333,9 @@ class Detail extends React.Component {
     render() {
         return (
             <div className="container" style={{padding: 10 + "px"}}>
-                <Calendar challengerDay={this.state.challengerDay} challenger ={this.state.challenger} />
+                <Calendar challengerDay={this.state.challengerDay}
+                          challenger ={this.state.challenger}
+                          getChallengerDayData={this.getChallengerDayData}/>
             </div>
         )
     }

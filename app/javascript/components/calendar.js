@@ -8,18 +8,13 @@ import PopoverPendingItem from "../components/PopoverPendingItem"
 class Calendar extends React.Component {
     constructor(props, context){
        super(props, context)
-       this.toggle = this.toggle.bind(this)
        this.state = {
          currentMonth: new Date(),
          selectedDate: new Date(),
          renderStatus: 1,
          event: [],
        }
-    }
-
-    toggle(id){
-        let button = document.getElementById("Popover-"+id)
-        button.click()
+       this.getChallengerDayData = this.getChallengerDayData.bind(this)
     }
 
     renderCalendarHeader() {
@@ -42,6 +37,10 @@ class Calendar extends React.Component {
                 </div>
             </div>
         )
+    }
+
+    getChallengerDayData(id){
+        this.props.getChallengerDayData(id)
     }
 
     renderEventHeader() {
@@ -107,6 +106,7 @@ class Calendar extends React.Component {
             </div>
         )
     }
+
     checkBetween(dayStart, day){
         if(dayStart != undefined){
             dayStart = dayStart.substring(0,10) + " 00:00:00"
@@ -116,6 +116,7 @@ class Calendar extends React.Component {
         let pDay = new Date(day)
         return pDay.valueOf() <= dayEnd.valueOf() && pDay.valueOf() >= pDayStart.valueOf()
     }
+
     renderCells() {
         let { currentMonth, selectedDate } = this.state;
         let monthStart = dateFns.startOfMonth(currentMonth);
@@ -140,27 +141,27 @@ class Calendar extends React.Component {
                     if(dateFns.isSameDay(day, selectedDate)){
                         if(checkHabitDay.length > 0){
                             days.push(
-                                <PopoverSuccessItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
+                                <PopoverSuccessItem key={day.valueOf()} day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
                                 content={checkHabitDay[0].content}/>
                             )
                         }
                         else {
                             days.push(
-                                <PopoverPendingItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
-                                challenger_id={this.props.challenger.id}/>
+                                <PopoverPendingItem key={day.valueOf()} day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
+                                challenger_id={this.props.challenger.id} getChallengerDayData={this.getChallengerDayData}/>
                             )
                         }
                     }
                     else {
                         if(checkHabitDay.length > 0){
                             days.push(
-                                <PopoverSuccessItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
+                                <PopoverSuccessItem key={day.valueOf()} day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}
                                                     content={checkHabitDay[0].content}/>
                             )
                         }
                         else {
                             days.push(
-                                <PopoverFailItem day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}/>
+                                <PopoverFailItem key={day.valueOf()} day={day} monthStart={monthStart} id={day.valueOf()} formattedDate={formattedDate} selectedDate={selectedDate}/>
                             )
                         }
                     }
@@ -174,7 +175,7 @@ class Calendar extends React.Component {
                                     ? "disabled"
                                     : dateFns.isSameDay(day, selectedDate) ? "checked" : ""
                                 }`}
-                            key={day}
+                            key={day.valueOf()}
                         >
                             <span className="number">{formattedDate}</span>
                             <span className="bg">{formattedDate}</span>

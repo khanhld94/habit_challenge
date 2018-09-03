@@ -124,3 +124,31 @@ lesshat-selector {
   max-width: 60%;
   text-align: center;
 }
+
+.inline-picture {
+  float: left;
+  width: 25%;
+  padding: 5px;
+}
+
+.inline-form {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+#create_form{
+  background: white;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  margin-top: 5%;
+}
+
+.gif-img{
+  width: 100%;
+}
+
+.create-form-label{
+  text-align: center;
+}
