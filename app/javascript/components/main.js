@@ -1,10 +1,21 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
 import axios from "axios"
-import Calendar from "../components/calendar"
+import Detail from "../components/detail"
+import Explore from "../components/explore"
+import NewChallenger from "../components/newChallenger"
+
 
 class Main extends React.Component {
+
+    constructor(){
+        super()
+        this.state={
+            isRedirect: false
+        }
+        this.redirect = this.redirect.bind(this)
+    }
 
     getCSRFToken() {
         var metas = document.getElementsByTagName('meta');
@@ -34,6 +45,12 @@ class Main extends React.Component {
             .catch((error) => error.message)
     }
 
+    redirect(){
+        this.setState({
+            isRedirect: true
+        })
+    }
+
     render() {
         return (
             <Router>
@@ -53,9 +70,12 @@ class Main extends React.Component {
                             </div>
                         </div>
                         <Route exact path="/" component={Index}/>
-                        <Route path="/new" render={() => (<Profile user_id={this.props.user_id}/>)}/>
+                        <Route path="/new" render={() => (<NewChallenger user_id={this.props.user_id} redirect={this.redirect}/>)}/>
                         <Route path="/explore" component={Explore}/>
                         <Route path="/detail/:id" component={Detail}/>
+                        {
+                            this.state.isRedirect ?  <Redirect to="/" /> : ""
+                        }
                     </div>
                     <div className="menu-box">
                         <div className="icon-bar">
@@ -153,191 +173,28 @@ class Index extends React.Component {
                 </li>
             )
         })
-        return (
-            <div className="container">
-                <span className="toggler" data-toggle="list"><span className="entypo-list"/></span>
-                <ul className="surveys list">
-                    {challenger_list}
-                </ul>
-            </div>
-        )
-    }
-}
-
-class Profile extends React.Component {
-
-    getCSRFToken() {
-        var metas = document.getElementsByTagName('meta');
-
-        for (var i = 0; i < metas.length; i++) {
-            if (metas[i].getAttribute("name") == "csrf-token") {
-                return metas[i].getAttribute("content");
-            }
-        }
-
-        return "";
-
-    }
-
-    addNewItem(item) {
-        this.props.addNewItem(item);
-    }
-
-    submit() {
-        let name = this.refs.name.value;
-        let length = this.refs.length.value;
-        let time = new Date();
-        let start_at = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate() + " "
-            + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()
-        let user_id = this.props.user_id;
-        let challenger = {
-            name: name,
-            length: length,
-            user_id: user_id,
-            start_at: start_at,
-            status: 0,
-            longest: 0
-        }
-        if (name === "") {
-            alert("Please fill name field");
-        }
-        else if (length === "") {
-            alert("Please fill the length field");
+        if(this.state.challengers.length > 0){
+            return (
+                <div className="container">
+                    <span className="toggler" data-toggle="list"><span className="entypo-list"/></span>
+                    <ul className="surveys list">
+                        {challenger_list}
+                    </ul>
+                </div>
+            )
         }
         else {
-            axios.post("/challenger", {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': this.getCSRFToken()
-                },
-                challenger: challenger
-            })
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            return (
+                <div className="containter" id="index-container">
+                    <div>
+                        <Link to="/new" className="btn btn-primary">You don't have any challenger, create one ︎</Link>
+                    </div>
+                    <div className="img-container">
+                        <img src="../images/newchallenger.gif" id="new-image"/>
+                    </div>
+                </div>
+            )
         }
-
-    }
-
-    render() {
-        return (
-            <div id="create_form">
-                <h4 className="create-form-label">Create new challenger</h4>
-                <div className="inline-picture">
-                    <img className="gif-img" src="../images/batman.gif"/>
-                </div>
-                <div className="inline-form">
-                    <form name="createForm">
-                        <div className="form-group">
-                            <label>Name: </label>
-                            <input type="text" placeholder="Enter Name" name="name" className="form-control" ref="name"/>
-                        </div>
-                        <div className="form-group">
-                            <label>Length: </label>
-                            <input className="form-control" name="length" placeholder="Enter length (days) of challenger" ref="length"/>
-                        </div>
-                        <a className="btn btn-primary" onClick={this.submit.bind(this)}>Submit</a>
-                    </form>
-                </div>
-                <div className="inline-picture">
-                    <img className="gif-img" src="../images/brother.gif"/>
-                </div>
-            </div>
-        )
-    }
-}
-
-class Explore extends React.Component {
-    render() {
-        return (
-            <div className="container">
-                <h4 className="explore-title">Let's try</h4>
-                <div className="container card-list">
-                    <div className="card blue">
-                        <div className="title">Do exercise</div><span className="glyphicon glyphicon-upload"></span>
-                        <div className="value">100 days</div>
-                        <div className="stat"><b>90</b>% pass</div>
-                    </div>
-                    <div className="card green">
-                        <div className="title">Readbook</div><span className="glyphicon glyphicon-upload"></span>
-                        <div className="value">52 weeks</div>
-                        <div className="stat"><b>6</b>% pass</div>
-                    </div>
-                    <div className="card orange">
-                        <div className="title">Learn Japanese</div><span className="glyphicon glyphicon-download"></span>
-                        <div className="value">365 days</div>
-                        <div className="stat"><b>13</b>% pass</div>
-                    </div>
-                    <div className="card red">
-                        <div className="title">No Fap</div><span className="glyphicon glyphicon-download"></span>
-                        <div className="value">90 days</div>
-                        <div className="stat"><b>0</b>% pass</div>
-                    </div>
-                </div>
-                <div className="container card-list">
-                    <div className="card blue">
-                        <div className="title">Do exercise</div><span className="glyphicon glyphicon-upload"></span>
-                        <div className="value">100 days</div>
-                        <div className="stat"><b>90</b>% pass</div>
-                    </div>
-                    <div className="card green">
-                        <div className="title">Readbook</div><span className="glyphicon glyphicon-upload"></span>
-                        <div className="value">52 weeks</div>
-                        <div className="stat"><b>6</b>% pass</div>
-                    </div>
-                    <div className="card orange">
-                        <div className="title">Learn Japanese</div><span className="glyphicon glyphicon-download"></span>
-                        <div className="value">365 days</div>
-                        <div className="stat"><b>13</b>% pass</div>
-                    </div>
-                    <div className="card red">
-                        <div className="title">No Fap</div><span className="glyphicon glyphicon-download"></span>
-                        <div className="value">90 days</div>
-                        <div className="stat"><b>0</b>% pass</div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
-
-class Detail extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            challenger: {},
-            challengerDay: []
-        }
-        this.getChallengerDayData = this.getChallengerDayData.bind(this)
-    }
-
-    componentDidMount() {
-        this.getChallengerDayData(this.props.match.params.id)
-    }
-
-    getChallengerDayData(cId){
-        axios.get("/challenger/" + cId)
-            .then((res) => {
-                console.log(res)
-                this.setState({
-                    challenger: res.data.challenger,
-                    challengerDay: res.data.challenger_day
-                })
-            })
-            .catch((err) => console.log(err))
-    }
-
-    render() {
-        return (
-            <div className="container" style={{padding: 10 + "px"}}>
-                <Calendar challengerDay={this.state.challengerDay}
-                          challenger ={this.state.challenger}
-                          getChallengerDayData={this.getChallengerDayData}/>
-            </div>
-        )
     }
 }
 

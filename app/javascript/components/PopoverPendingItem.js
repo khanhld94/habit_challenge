@@ -43,13 +43,13 @@ class PopoverPendingItem extends React.Component {
                 self.setState({
                     popoverOpen: false
                 })
-
+                self.getChallengerDayData(self.props.challenger_id)
                 console.log(response);
             })
             .catch(function (error) {
                 console.log(error);
             });
-            this.getChallengerDayData(this.props.challenger_id)
+
         }
 
     }
