@@ -6,7 +6,11 @@ class NewChallenger extends React.Component {
 
     constructor(props){
         super(props)
+        this.state={
+            isRedirect: false
+        }
         this.redirect = this.redirect.bind(this)
+        this.resetRedirect = this.resetRedirect.bind(this)
     }
 
     getCSRFToken() {
@@ -30,6 +34,10 @@ class NewChallenger extends React.Component {
         this.props.redirect()
     }
 
+    resetRedirect(){
+        this.props.resetRedirect()
+    }
+
     submit() {
         let name = this.refs.name.value;
         let length = this.refs.length.value;
@@ -45,6 +53,7 @@ class NewChallenger extends React.Component {
             status: 0,
             longest: 0
         }
+
         if (name === "") {
             alert("Please fill name field");
         }
@@ -62,7 +71,7 @@ class NewChallenger extends React.Component {
             })
             .then(function (response) {
                 self.redirect()
-                console.log(response);
+                self.resetRedirect()
             })
             .catch(function (error) {
                 console.log(error);
