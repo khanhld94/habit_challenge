@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {BrowserRouter as Router, Route, Link, Redirect, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
 import axios from "axios"
 import Detail from "../components/detail"
 import Explore from "../components/explore"
@@ -14,8 +14,6 @@ class Main extends React.Component {
         this.state={
             isRedirect: false
         }
-        this.redirect = this.redirect.bind(this)
-        this.resetRedirect = this.resetRedirect.bind(this)
     }
 
     getCSRFToken() {
@@ -46,18 +44,6 @@ class Main extends React.Component {
             .catch((error) => error.message)
     }
 
-    redirect(){
-        this.setState({
-            isRedirect: true
-        })
-    }
-
-    resetRedirect(){
-        this.setState({
-            isRedirect: false
-        })
-    }
-
     render() {
         return (
             <Router>
@@ -77,12 +63,9 @@ class Main extends React.Component {
                             </div>
                         </div>
                         <Route exact path="/" component={Index}/>
-                        <Route path="/new" render={() => (<NewChallenger user_id={this.props.user_id} redirect={this.redirect} resetRedirect={this.resetRedirect} />)}/>
+                        <Route path="/new" render={() => (<NewChallenger user_id={this.props.user_id} />)}/>
                         <Route path="/explore" component={Explore}/>
                         <Route path="/detail/:id" component={Detail}/>
-                        {
-                            this.state.isRedirect ?  <Redirect to="/" /> : ""
-                        }
                     </div>
                     <div className="menu-box">
                         <div className="icon-bar">

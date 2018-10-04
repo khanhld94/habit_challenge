@@ -1,16 +1,14 @@
 import React from "react";
 import axios from "axios"
-import {BrowserRouter as Redirect} from 'react-router-dom'
+import {BrowserRouter, Redirect, Link} from 'react-router-dom'
 
 class NewChallenger extends React.Component {
 
     constructor(props){
         super(props)
         this.state={
-            isRedirect: false
+            createStatus: false
         }
-        this.redirect = this.redirect.bind(this)
-        this.resetRedirect = this.resetRedirect.bind(this)
     }
 
     getCSRFToken() {
@@ -28,14 +26,6 @@ class NewChallenger extends React.Component {
 
     addNewItem(item) {
         this.props.addNewItem(item);
-    }
-
-    redirect(){
-        this.props.redirect()
-    }
-
-    resetRedirect(){
-        this.props.resetRedirect()
     }
 
     submit() {
@@ -70,8 +60,9 @@ class NewChallenger extends React.Component {
                 challenger: challenger
             })
             .then(function (response) {
-                self.redirect()
-                self.resetRedirect()
+                self.setState({
+                    createStatus: true
+                })
             })
             .catch(function (error) {
                 console.log(error);
@@ -83,6 +74,14 @@ class NewChallenger extends React.Component {
     render() {
         return (
             <div id="create_form">
+                {
+                    this.state.createStatus ?
+                    (
+                        <div className="alert-box" style={{textAlign: "center"}}>
+                            <text className="alert-text"> Challenger created! </text><Link to="/">Check it out!︎</Link>
+                        </div>
+                    ) : ("")
+                }
                 <h4 className="create-form-label">Create new challenger</h4>
                 <div className="inline-picture">
                     <img className="gif-img" src="../images/batman.gif"/>
