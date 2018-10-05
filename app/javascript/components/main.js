@@ -12,7 +12,6 @@ class Main extends React.Component {
     constructor(){
         super()
         this.state={
-            isRedirect: false
         }
     }
 
@@ -102,7 +101,8 @@ class Index extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            challengers: []
+            challengers: [],
+            isLoading: true
         }
 
     }
@@ -114,9 +114,12 @@ class Index extends React.Component {
                 'Content-Type': 'application/json'
             }
         })
-            .then(res => {
-                this.setState({challengers: res.data});
-            })
+        .then(res => {
+            this.setState({
+                challengers: res.data,
+                isLoading: false
+            });
+        })
     }
 
     render() {
@@ -162,28 +165,40 @@ class Index extends React.Component {
                 </li>
             )
         })
-        if(this.state.challengers.length > 0){
+        if(this.state.isLoading){
             return (
-                <div className="container">
-                    <span className="toggler" data-toggle="list"><span className="entypo-list"/></span>
-                    <ul className="surveys list">
-                        {challenger_list}
-                    </ul>
+                <div className="container" id="index-container">
+                    <div className="img-container">
+                        <img src="../images/loading.gif" id="new-image"/>
+                    </div>
                 </div>
             )
         }
         else {
-            return (
-                <div className="containter" id="index-container">
-                    <div>
-                        <Link to="/new" className="btn btn-primary">You don't have any challenger, create one ︎</Link>
+            if(this.state.challengers.length > 0){
+                return (
+                    <div className="container">
+                        <span className="toggler" data-toggle="list"><span className="entypo-list"/></span>
+                        <ul className="surveys list">
+                            {challenger_list}
+                        </ul>
                     </div>
-                    <div className="img-container">
-                        <img src="../images/newchallenger.gif" id="new-image"/>
+                )
+            }
+            else {
+                return (
+                    <div className="containter" id="index-container">
+                        <div>
+                            <Link to="/new" className="btn btn-primary">You don't have any challenger, create one ︎</Link>
+                        </div>
+                        <div className="img-container">
+                            <img src="../images/newchallenger.gif" id="new-image"/>
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            }
         }
+
     }
 }
 
