@@ -5,6 +5,7 @@ import axios from "axios"
 import Detail from "../components/detail"
 import Explore from "../components/explore"
 import NewChallenger from "../components/newChallenger"
+import Pagination from "../components/Pagination"
 
 
 class Main extends React.Component {
@@ -102,9 +103,16 @@ class Index extends React.Component {
         super(props)
         this.state = {
             challengers: [],
-            isLoading: true
+            isLoading: true,
+            currentPage:1
         }
+        this.pagination = this.pagination.bind(this)
+    }
 
+    pagination(page){
+        this.setState({
+            currentPage: page
+        })
     }
 
     componentWillMount() {
@@ -122,8 +130,8 @@ class Index extends React.Component {
         })
     }
 
-    render() {
-        let challenger_list = this.state.challengers.map((item) => {
+    renderChallengerList(itemList){
+        return itemList.map((item) => {
             let successDays = item.challengerDay.length
             item = item.challenger
             return (
@@ -165,6 +173,10 @@ class Index extends React.Component {
                 </li>
             )
         })
+    }
+
+    render() {
+
         if(this.state.isLoading){
             return (
                 <div className="container" id="index-container">
@@ -175,13 +187,33 @@ class Index extends React.Component {
             )
         }
         else {
-            if(this.state.challengers.length > 0){
+            if(this.state.challengers.length > 0 && this.state.challengers.length < 5){
                 return (
                     <div className="container">
                         <span className="toggler" data-toggle="list"><span className="entypo-list"/></span>
                         <ul className="surveys list">
-                            {challenger_list}
+                            {this.renderChallengerList(this.state.challengers)}
                         </ul>
+                    </div>
+                )
+            }
+            else if (this.state.challengers.length > 5) {
+                let allItem = this.state.challengers
+                let pagiItem
+                if(this.state.currentPage - 1 === Math.floor(allItem.length/5)){
+                    pagiItem = allItem.slice(5*(this.state.currentPage-1), allItem.length)
+                }
+                else{
+                    pagiItem = allItem.slice(5*(this.state.currentPage-1),5*this.state.currentPage)
+                }
+                return (
+                    <div className="container">
+                        <span className="toggler" data-toggle="list"><span className="entypo-list"/></span>
+                        <ul className="surveys list">
+                            {this.renderChallengerList(pagiItem)}
+                        </ul>
+                        <Pagination allItems={this.state.challengers}
+                                    pagination={this.pagination}/>
                     </div>
                 )
             }
@@ -198,6 +230,7 @@ class Index extends React.Component {
                 )
             }
         }
+
 
     }
 }
