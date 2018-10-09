@@ -32,17 +32,17 @@ class Pagination extends Component{
         return(
             <nav className="pagination-wrapper">
                 <ul className="pagination justify-content-center">
-                    {this.props.allItems.length < 2 ? (
+                    {this.props.allItems.length < 2 || this.state.currentPage === 1 ? (
                         null
                     ) : (
                         <li className="page-item">
-                            <a className="page-link" href="#" onClick={()=>this.pagination(this.state.currentPage-1)}>Previous</a>
+                            <a className="page-link" onClick={()=>this.pagination(this.state.currentPage-1)}>Previous</a>
                         </li>
                     )}
                     {numberlist}
                     {
                         this.state.currentPage === Math.ceil(this.props.allItems.length/5) ? (null) : (<li className="page-item">
-                            <a className="page-link" href="#" onClick={()=>this.pagination(this.state.currentPage+1)}>Next</a>
+                            <a className="page-link" onClick={()=>this.pagination(this.state.currentPage+1)}>Next</a>
                         </li>)
                     }
 
